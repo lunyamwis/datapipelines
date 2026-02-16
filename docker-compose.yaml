@@ -63,6 +63,7 @@ x-airflow-common:
     AIRFLOW__CORE__FERNET_KEY: ''
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
     AIRFLOW__CORE__LOAD_EXAMPLES: 'true'
+    AIRFLOW__WEBSERVER__ENABLE_PROXY_FIX: "true"
     AIRFLOW__CORE__EXECUTION_API_SERVER_URL: 'http://airflow-apiserver:8080/execution/'
     # yamllint disable rule:line-length
     # Use simple http server on scheduler for health checks
@@ -117,6 +118,16 @@ services:
       start_period: 30s
     restart: always
 
+  nginx:
+    image: nginx:1.27-alpine
+    depends_on:
+      airflow-apiserver:
+        condition: service_healthy
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d:ro
+    restart: always
   airflow-apiserver:
     <<: *airflow-common
     command: api-server
