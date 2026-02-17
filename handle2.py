@@ -31,7 +31,7 @@ ANON_SALT = os.getenv("ANON_SALT", "CHANGE_ME_TO_A_LONG_RANDOM_SECRET")
 TZ = ZoneInfo("Africa/Nairobi")
 TODAY_LOCAL = datetime.now(TZ).date()
 
-OUT_DIR = Path("./landingai_today_exports")
+OUT_DIR = Path("/mnt/c/Users/luthe/Documents/landingai_today_exports")
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 TIMEOUT = 120
@@ -224,7 +224,7 @@ def main():
         return
 
     for idx, (job_id, dt_local) in enumerate(todays, start=1):
-        if idx == 2: break
+        # if idx == 2: break
         if not job_id:
             continue
 
